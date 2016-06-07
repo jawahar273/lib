@@ -1,12 +1,13 @@
 # lib project is for a simple managment of libery using excel sheets 
-This is begining project in python.It mainly for comparsion of two excel sheets
+>This is begining project in python.
+It mainly for comparsion of two excel sheets.This software will be  working very
+good in large data '(73,000 excel columns where load)'  
 
 # feature 
 - Find length of the row 
 - Using one column (like one primary key)
 - Find the missing values
 - Displaying of matched values 
-- 
 - It take one key  (like primay key)
 
 # Requiment
