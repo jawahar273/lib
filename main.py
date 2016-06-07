@@ -36,6 +36,8 @@ class MainForm(QMainWindow):
         # self.uiWindow.progressBar.setMaximum(90)
         self.uiWindow.tableWidget.setRowCount(5)
         self.uiWindow.tableWidget.setColumnCount(3)
+        self.save = None
+        self.uiWindow.open_result_file.hide()
         if PyQt_version == 4:
              QtCore.QObject.connect(self.uiWindow.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.dialog_show)
              QtCore.QObject.connect(self.uiWindow.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.dialog_show_2)
@@ -47,7 +49,7 @@ class MainForm(QMainWindow):
 
     def dialog_show(self):
         dia = QFileDialog.getOpenFileName(self, _fromUtf8("open excel"), directory=__file__)
-        print(dia)
+        #print(dia)
         self.uiWindow.label_4.setText((dia))
         rp = (self.logic.ok_text_1())
         self.uiWindow.pushButton.setText(rp)
@@ -69,20 +71,30 @@ class MainForm(QMainWindow):
 
     def save_file_on_gen(self):
         try:
+            self.save = self.uiWindow.lineEdit.text()+".xlsx"
+            self.logic.save_file(self.save)
+            self.error = "success"
+            self.uiWindow.open_result_file.show()
+          #self.uiWindow
+            QtCore.QObject.connect(self.uiWindow.open_result_file, QtCore.SIGNAL(_fromUtf8("pressed()")), self.__pop_file)
 
-          self.logic.save_file(self.uiWindow.lineEdit.text()+".xlsx")
-          self.error = "success"
         except Exception as e:
             self.error = "fails"
-            print(e)
+            print(e.__traceback__())
+
         finally:
              self.__j()
 
     def __j(self):
         self.uiWindow.label_6.setText(self.error)
         self.uiWindow.label_6.setStyleSheet("color:green")
+
         if self.error == "fails":
           self.uiWindow.label_6.setStyleSheet("color:red")
+
+    def __pop_file(self):
+          from os import popen
+          popen(self.save)
 
 if '__main__' == __name__:
     app = QApplication(sys.argv)
