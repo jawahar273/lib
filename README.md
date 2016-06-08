@@ -13,14 +13,14 @@ good in large data ***(73,000 excel columns where load)***
 # Requiment
 
 - python 3.5+
-- conda
+- conda (or) pip, etc
 - openpyxl 2.x
 - pyqt4
 - pyqt5(comming soon..)
 
 # Mile stone
-- quick loading of large file as quick as possible
-- better memory managment 
+- ~~quick loading of large file as quick as possible~~
+- ~~better memory managment~~
 - better ui 
 - exctract information from database using ***ORM*** concept(next mongodb)
 - more options
