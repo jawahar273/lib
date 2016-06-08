@@ -22,6 +22,7 @@ good in large data '(73,000 excel columns where load)'
 - quick loading of large file as quick as possible
 - better memory managment 
 - better ui 
+- exctract information from database using ***ORM*** comcept(next mongodb)
 - more options
 
 # Downfall
