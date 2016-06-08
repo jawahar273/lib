@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>531</width>
-    <height>381</height>
+    <width>791</width>
+    <height>595</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>Airport-96.png</normaloff>Airport-96.png</iconset>
+    <normaloff>view/ring-alt.gif</normaloff>view/ring-alt.gif</iconset>
   </property>
   <property name="iconSize">
    <size>
@@ -30,6 +30,12 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::ActionsContextMenu</enum>
+      </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
@@ -38,131 +44,7 @@
         <string>Tab 1</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="1" column="1">
-         <widget class="QFrame" name="frame">
-          <property name="styleSheet">
-           <string notr="true">font: italic 22pt &quot;Monotype Corsiva&quot;;</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_3">
-           <item row="0" column="1">
-            <spacer name="horizontalSpacer_4">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="3" column="5">
-            <widget class="QPushButton" name="pushButton_3">
-             <property name="text">
-              <string>generate</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="3">
-            <widget class="QPushButton" name="pushButton">
-             <property name="text">
-              <string>Browes</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <spacer name="horizontalSpacer_3">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="1" column="4" colspan="2">
-            <widget class="QLabel" name="label_4">
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;file name&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>second file</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>first file</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>Result file</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="4">
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>file name</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="3" colspan="2">
-            <widget class="QLineEdit" name="lineEdit"/>
-           </item>
-           <item row="2" column="3">
-            <widget class="QPushButton" name="pushButton_2">
-             <property name="text">
-              <string>Browes</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="3">
-            <widget class="QLabel" name="label_6">
-             <property name="text">
-              <string>Result of file</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <widget class="QLabel" name="Dialog_title">
-             <property name="styleSheet">
-              <string notr="true">font: italic 26pt &quot;Monotype Corsiva&quot;;</string>
-             </property>
-             <property name="text">
-              <string>File dialog</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="3">
-            <widget class="QCheckBox" name="open_result_file">
-             <property name="text">
-              <string>open the result file</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="1" column="0">
+        <item row="0" column="0">
          <spacer name="horizontalSpacer">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -175,7 +57,7 @@
           </property>
          </spacer>
         </item>
-        <item row="1" column="2">
+        <item row="0" column="2">
          <spacer name="horizontalSpacer_2">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -188,20 +70,7 @@
           </property>
          </spacer>
         </item>
-        <item row="2" column="1">
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="1">
+        <item row="1" column="1">
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -214,7 +83,156 @@
           </property>
          </spacer>
         </item>
+        <item row="0" column="1">
+         <widget class="QFrame" name="frame">
+          <property name="styleSheet">
+           <string notr="true">font: italic 22pt &quot;Monotype Corsiva&quot;;</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="0">
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="1" colspan="2">
+            <widget class="QLabel" name="Dialog_title">
+             <property name="styleSheet">
+              <string notr="true">font: italic 26pt &quot;Monotype Corsiva&quot;;</string>
+             </property>
+             <property name="text">
+              <string>File dialog</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Masterfile</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Slave file</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QPushButton" name="pushButton_2">
+             <property name="maximumSize">
+              <size>
+               <width>193</width>
+               <height>44</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Browes</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;file name&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Select one</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QRadioButton" name="radioButton">
+             <property name="text">
+              <string>Missing one</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>file name</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1" colspan="3">
+            <widget class="QLineEdit" name="lineEdit"/>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Result file</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QRadioButton" name="radioButton_2">
+             <property name="text">
+              <string>Same values</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QPushButton" name="pushButton_3">
+             <property name="text">
+              <string>generate</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1" colspan="3">
+            <widget class="QCheckBox" name="open_result_file">
+             <property name="text">
+              <string>open the result file</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1" colspan="2">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>Result of file</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="pushButton">
+             <property name="maximumSize">
+              <size>
+               <width>193</width>
+               <height>44</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Browes</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="tab_3">
+       <attribute name="title">
+        <string>Page</string>
+       </attribute>
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
@@ -235,7 +253,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>531</width>
+     <width>791</width>
      <height>21</height>
     </rect>
    </property>

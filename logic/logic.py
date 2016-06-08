@@ -31,6 +31,9 @@ class PopWidget(QWidget):
             return self.text
 
 
+
+
+
 #################################################################################
 #
 # maseter unique cell must be set carfully
@@ -56,7 +59,7 @@ class Main(object):
         self.len_row2 = 0
         self.len_col = 0
         self.len_col2 = 0
-        self.row_1 = 2 
+        self.row_1 = 2
         self.row_data = None
         self.len_col = None
         self.len_row_str = " "
@@ -148,7 +151,7 @@ class Main(object):
             self.slave_set.append(self.select2['A' + str(count)].value)
             ####print((">>>>slave",(self.select2['A'+str(count)].value))
             count += 1
-        #self.store_set = list(0)
+            # self.store_set = list(0)
 
     def ok_text_1(self):
         return self.ok_1
@@ -164,22 +167,22 @@ class Main(object):
         """
 
         # self.store_set = self.master_set.difference(self.slave_set)
-        #print(("type of store set", type(self.store_set))
-        
+        # print(("type of store set", type(self.store_set))
+
         try:
 
-          #    self.store.remove(None)
-          #  self.store.remove(self.master_header)
-          ##print((self.store)
-          self.slave_set.remove(None)
-          self.slave_set.remove(self.master_header)
+            #    self.store.remove(None)
+            #  self.store.remove(self.master_header)
+            ##print((self.store)
+            self.slave_set.remove(None)
+            self.slave_set.remove(self.master_header)
         except ValueError:
             pass
 
         # self.store.sort()
         # #print((self.store)
 
-        #sorted(self.slave_set)
+        # sorted(self.slave_set)
 
 
         ###print((self.store,"\nlen of store:",len_store)
@@ -197,8 +200,8 @@ class Main(object):
         """
 
         self.master_set = list(self.master_set)
-        
-        #print((self.master_set)
+
+        # print((self.master_set)
         try:
 
             self.master_set.remove(None)
@@ -207,15 +210,15 @@ class Main(object):
             pass
 
         self.len_row = len(self.master_set)
-        #print(("master set", self.len_row, "\n row len of file1:", self.len_row, '\n', "====" * 10)
+        # print(("master set", self.len_row, "\n row len of file1:", self.len_row, '\n', "====" * 10)
         sorted(self.store_set)
         try:
-           self.master_set.sort()
+            self.master_set.sort()
         except TypeError:
-        	#print(self.master_set,"slave sort:",self.slave_set)
-        	pass
-        
-        #print(("master set", "--" * 20, len(self.master_set), "\n", "--" * 20, "\n len of slave", len(self.slave_set))
+            # print(self.master_set,"slave sort:",self.slave_set)
+            pass
+
+        # print(("master set", "--" * 20, len(self.master_set), "\n", "--" * 20, "\n len of slave", len(self.slave_set))
 
         for i in self.select["A1:I1"]:
             """
@@ -231,14 +234,14 @@ class Main(object):
         j = []
         self.col_i = 0
         g = 0
-        
-        for c in range(self.len_row): 
-               toS = str(c+1)
-               
-               ####print(("++",self.select["A"+toS+":I"+toS])
-               #for j in c:
-               ###print(("rotation of store:",j)
-               """
+
+        for c in range(self.len_row):
+            toS = str(c + 1)
+
+            ####print(("++",self.select["A"+toS+":I"+toS])
+            # for j in c:
+            ###print(("rotation of store:",j)
+            """
                   if ( list_value_2 == list_value ):
                 ###print((self.master_set[j],"and", self.store[j])
                 to = self.select["A"+toS+":I"+toS]
@@ -255,31 +258,25 @@ class Main(object):
 
                  """
 
-               try:
+            try:
 
-                 a1 = self.slave_set[self.col_i]
-               except IndexError:
-               	print("Index error ====G: ",g, "self.col_i:", self.col_i)
-                g = c
-               except Exception as e:
-               	 print("storp index ",g, "self.col_i:", self.col_i,"\nMain exception:",e )
-               b1 = (self.master_set[c])
-               
-               if ( a1 == b1):
-               	      print("slave:",a1, "==", b1,":master")
+                a1 = self.slave_set[self.col_i]
+            except IndexError:
+                print("Index error ====G: ", g, "self.col_i:", self.col_i)
 
-                      self.compare_to_check(toS)
-                      self.col_i += 1
-                   
-                      
-               else:
-                   
-                   continue
-               #print(("[",self.col_i,"]",c)
-               
+            g = c
 
+            b1 = (self.master_set[c])
 
+            if (a1 == b1):
+                print("slave:", a1, "==", b1, ":master")
 
+                self.compare_to_check(toS)
+                self.col_i += 1
+            else:
+
+                continue
+                # print(("[",self.col_i,"]",c)
 
         """
         [
@@ -293,27 +290,31 @@ class Main(object):
          """""
         try:
             self.wb.save(a)
-            #print(()
+
+            # print(()
         except PermissionError:
             # #print(("close the report file please..")
-            QMessageBox.information(None, "version", _fromUtf8("Please close the result..."))
+
+            from os import system
+            system("taskkill /IM excel.exe")
+            QMessageBox.information(None, "version", _fromUtf8("closing all files..."))
+            self.wb.save(a)
 
     def compare_to_check(self, toS):
 
+        # #print(("first--->%d )( second --->%d",a,b)
+        to = self.select["A" + toS + ":I" + toS]
+        # #print(("row count in master:",toS)
+        # #print((to ,"\n rotation:",self.col_i)
 
-            # #print(("first--->%d )( second --->%d",a,b)
-            to = self.select["A" + toS + ":I" + toS]
-            # #print(("row count in master:",toS)
-            # #print((to ,"\n rotation:",self.col_i)
 
-
-            for r_o in to:
-                col_1 = 1
-                ###print(("row---->",self.row_1,"\ncol----------------------------------------------------")
-                for c_o in r_o:
-                    ###print((col_1,end="\t")
-                    self.wb_sheet1_1.cell(row=self.row_1, column=col_1, value=c_o.value)
-                    ##print((c_o.value)
-                    col_1 += 1
-                ###print(()
-                self.row_1 += 1
+        for r_o in to:
+            col_1 = 1
+            ###print(("row---->",self.row_1,"\ncol----------------------------------------------------")
+            for c_o in r_o:
+                ###print((col_1,end="\t")
+                self.wb_sheet1_1.cell(row=self.row_1, column=col_1, value=c_o.value)
+                ##print((c_o.value)
+                col_1 += 1
+            ###print(()
+            self.row_1 += 1
