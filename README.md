@@ -1,7 +1,7 @@
 # lib project is for a simple managment of libery using excel sheets 
 >This is begining project in python.
 It mainly for comparsion of two excel sheets.This software will be  working very
-good in large data '(73,000 excel columns where load)'  
+good in large data ***(73,000 excel columns where load)***  
 
 # feature 
 - Find length of the row 
@@ -22,7 +22,7 @@ good in large data '(73,000 excel columns where load)'
 - quick loading of large file as quick as possible
 - better memory managment 
 - better ui 
-- exctract information from database using ***ORM*** comcept(next mongodb)
+- exctract information from database using ***ORM*** concept(next mongodb)
 - more options
 
 # Downfall
