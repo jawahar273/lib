@@ -5,7 +5,7 @@ Created on 03-Jun-2016
 '''
 from sys import getsizeof
 import sys
-
+from time import sleep
 try:
 
     from PyQt4.QtGui import QMainWindow, QApplication, QWidget, QFileDialog, QMessageBox
@@ -16,7 +16,7 @@ except ImportError:
     from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QFileDialog, QMessageBox
 
     PyQt_version = 5
-from view.mainwindow import *
+
 from logic.logic import *
 
 try:
@@ -25,35 +25,26 @@ except AttributeError:
     def _fromUtf8(s):
         return s
 
-class ThreadLib(QtCore.QThread):
-    def __init__(self):
-        QtCore.QThread.__init__(self)
-        
-        
+import  openpyxl.utils.exceptions
+from PyQt4.QtGui import QMessageBox
 
-    def run(self):
-        self.start()
-       
-        
 
-    def __del__(self):
-    	self.exiting = True
-    	self.wait()
 
 class MainForm(QMainWindow):
 
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
         self.logic = Main()
-        self.uiWindow = Ui_MainWindow()
+        self.uiWindow = self.logic.ui_window
         self.uiWindow.setupUi(self)
         # self.uiWindow.progressBar.setMinimum(24)
         # self.uiWindow.progressBar.setMaximum(90)
         self.uiWindow.tableWidget.setRowCount(5)
         self.uiWindow.tableWidget.setColumnCount(3)
         self.save = None
-
+        self.dia = None
         self.uiWindow.open_result_file.hide()
+
 
         if PyQt_version == 4:
            
@@ -66,12 +57,12 @@ class MainForm(QMainWindow):
 
     def dialog_show(self):
 
-        dia = QFileDialog.getOpenFileName(self, _fromUtf8("open excel"), directory=__file__)
+        self.dia = QFileDialog.getOpenFileName(self, _fromUtf8("open excel"), directory=__file__)
         self.uiWindow.pushButton.setStyleSheet("color:green")
 
             
         #print(dia)
-        self.uiWindow.label_4.setText((dia))
+        self.uiWindow.label_4.setText((self.dia))
         rp = (self.logic.ok_text_1())
         self.uiWindow.pushButton.setText(rp)
         
@@ -81,35 +72,45 @@ class MainForm(QMainWindow):
             self.uiWindow.pushButton.setStyleSheet("color:red")
         try:
             try:
-               thread = ThreadLib()
-               self.connect(thread, QtCore.SIGNAL("thread.start()"), self.fack_function_1)	
                
+               #self.connect(thread, QtCore.SIGNAL("thread.start()"), self.fack_function_1)	
+               self.fack_to_load_file_1()
+               
+               print("Master's size:",getsizeof(self.dia), type(self.dia))
+               if (self.dia):
 
-               print(getsizeof(dia))
-               if (dia):
-               	 del dia
+                 del self.dia
+                 self.dia = None
+            except  openpyxl.utils.exceptions.InvalidFileException as e:
+                #openpyxl.utils.exceptions.InvalidFileException
+                print(e)
+                self.uiWindow.pushButton.setText(rp)
 
-            except RuntimeError as e:
-            	print(e)
+
         except FileNotFoundError:
                 self.uiWindow.pushButton.setStyleSheet("color:black")
                 self.uiWindow.label_4.setText("Browes")
-                if (dia):
-                	del dia
+                if (self.dia):
+                  del self.dia
 
-    def fack_function_1(self):
-        self.logic.load_file_1(dia)
-   
+
+    def fack_to_load_file_1(self):
+       self.logic.load_file_1(self.dia)
+
     def dialog_show_2(self):
 
 
+        """
+
+        :type self: object
+        """
         try:
             
-            dia = QFileDialog.getOpenFileName(self, _fromUtf8("open excel"), directory=__file__)
+            self.dia = QFileDialog.getOpenFileName(self, _fromUtf8("open excel"), directory=__file__)
         except FileNotFoundError:
            self.uiWindow.pushButton.setStyleSheet("color:black")
             
-        self.uiWindow.label_5.setText(dia)
+        self.uiWindow.label_5.setText(self.dia)
         rp = self.logic.ok_text_2()
         self.uiWindow.pushButton_2.setText(rp)
         self.uiWindow.pushButton_2.setStyleSheet("color:green")
@@ -119,34 +120,35 @@ class MainForm(QMainWindow):
         
         try:
             try:
-               thread = ThreadLib()
-               self.connect(thread, QtCore.SIGNAL("thread.start()"), self.fack_function_2)	
+              
                
-               if (dia):
-               	 del dia
-            except  RuntimeError as e:
-            	print(e)
+               self.fack_to_load_file_2()
+               print("slave size:",getsizeof(self.dia), len(self.dia))
+               if (self.dia):
+
+                  del self.dia
+                  self.dia = None
+            except  openpyxl.utils.exceptions.InvalidFileException as e:
+
+                print(e)
+                QMessageBox.information(None, "version", _fromUtf8("invalid..."))
+                self.uiWindow.pushButton_2.setText("Invalid format")
+
         except FileNotFoundError:
                 self.uiWindow.pushButton.setStyleSheet("color:black")
                 self.uiWindow.label_4.setText("Browes")
-                if (dia):
-                	del dia
-    def fack_function_2(self):
-        self.logic.load_file_2(dia)
+                if (self.dia):
 
-    def fack_function_in_save(self):
-    	self.logic.save_file(self.save)
+                  del self.dia
+                  self.dia = None
+
+    def fack_to_load_file_2(self):
+    	self.logic.load_file_2(self.dia)
 
     def save_file_on_gen(self):
         try:
             self.save = self.uiWindow.lineEdit.text()+".xlsx"
-            try:
-               thread = ThreadLib()
-               self.connect(thread, QtCore.SIGNAL("thread.start()"), self.fack_function_in_save)	
-               
-
-            except  RuntimeError as e:
-            	print(e)
+            self.logic.save_file(self.save)
             
             self.error = "success"
             self.uiWindow.open_result_file.show()
@@ -170,12 +172,6 @@ class MainForm(QMainWindow):
     def __pop_file(self):
           from os import popen
           popen(self.save)
-    
-    def __delect_store(self, dele):
-    	'''
-    	:param dele: this is a variable to be delected.
-    	'''
-    	del dele
 
 
 if '__main__' == __name__:

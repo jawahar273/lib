@@ -1,7 +1,7 @@
 '''
 Created on 03-Jun-2016
 
-@author: kar
+@author: jon
 '''
 
 from openpyxl import Workbook
@@ -10,12 +10,15 @@ from openpyxl import load_workbook
 from PyQt4.QtGui import QMessageBox
 from PyQt4.QtGui import QInputDialog, QWidget
 from PyQt4 import QtCore
+from PyQt4.QtGui import QMainWindow,QTableWidgetItem
+from view.mainwindow import *
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
     def _fromUtf8(s):
         return s
+
 
 
 class PopWidget(QWidget):
@@ -40,15 +43,16 @@ class PopWidget(QWidget):
 # :variable:::maseter_head
 #
 #################################################################################
-class Main(object):
+class Main(QMainWindow):
     '''
     classdocs
     '''
 
-    def __init__(self):
+    def __init__(self, parent=None):
         '''
         Constructor
         '''
+        QMainWindow.__init__(self, parent)
         self.load_wb = None
         self.load_wb2 = None
         self.select = None
@@ -74,6 +78,14 @@ class Main(object):
         self.j_loop = 1
         self.col_i = 1
         # self.Range = None
+        self.ui_window  =   Ui_MainWindow()
+        self.ui_window.setupUi(self)
+
+
+        self.ui_window.radioButton.setChecked(True)
+        self.ui_window.radioButton.toggled.connect(lambda:self.ui_window.btnstate(self.ui_window.radioButton))
+        self.ui_window.radioButton_2.toggled.connect(lambda:self.ui_window.btnstate(self.ui_window.radioButton_2))
+        self.ui_window.radioButton_3.toggled.connect(lambda:self.ui_window.btnstate(self.ui_window.radioButton_3))
         self.wb = Workbook()
 
         self.wb_sheet1_1 = self.wb.active
@@ -84,6 +96,8 @@ class Main(object):
         # row_count_master = 1
 
         # self.search_in_master()
+    
+
 
     def load_file_1(self, a):
         """
@@ -93,7 +107,9 @@ class Main(object):
         """
 
         # a = "Master.xlsx"
-        self.load_wb = load_workbook(a)
+        self.load_wb =load_workbook(a)
+
+
 
         try:
             self.__u = self.load_wb.get_sheet_names()[0]
@@ -123,6 +139,9 @@ class Main(object):
             ####print((self.select['A'+str(count)].value)
             count += 1
 
+        
+
+    
     def load_file_2(self, a):
         """
         this file is used to load file slave excel file
@@ -131,7 +150,10 @@ class Main(object):
         """
 
         # a = "Slave1.xlsx"
-        self.load_wb2 = load_workbook(a)
+        self.load_wb2  = load_workbook(a)
+
+
+        
 
         try:
             self.select2 = self.load_wb2["Sheet1"]
@@ -140,7 +162,7 @@ class Main(object):
                 self.select2 = self.load_wb2["Sheet"]
             except KeyError:
 
-                self.select2 = self.load_wb2[_fromUtf8(PopWidget().text_r())]
+                self.select2 = self.load_wb2[_fromUtf8(PopWidget().text_r())][0]
             else:
                 self.ok_2 = "fails"
 
@@ -152,13 +174,14 @@ class Main(object):
             ####print((">>>>slave",(self.select2['A'+str(count)].value))
             count += 1
             # self.store_set = list(0)
-
+    
+    
     def ok_text_1(self):
         return self.ok_1
-
+    
     def ok_text_2(self):
         return self.ok_2
-
+    
     def save_file(self, a):
         """
         This function is used to save the file in .xlsx format
@@ -166,8 +189,6 @@ class Main(object):
         :return: save the excel file with the given name
         """
 
-        # self.store_set = self.master_set.difference(self.slave_set)
-        # print(("type of store set", type(self.store_set))
 
         try:
 
@@ -206,35 +227,45 @@ class Main(object):
 
             self.master_set.remove(None)
             self.master_set.remove(self.master_header)
-        except ValueError:
-            pass
+        except ValueError as v:
+           print("V-->\n",v)
+            
 
         self.len_row = len(self.master_set)
         # print(("master set", self.len_row, "\n row len of file1:", self.len_row, '\n', "====" * 10)
-        sorted(self.store_set)
+
         try:
             self.master_set.sort()
+            sorted(self.store_set)
         except TypeError:
             # print(self.master_set,"slave sort:",self.slave_set)
             pass
 
         # print(("master set", "--" * 20, len(self.master_set), "\n", "--" * 20, "\n len of slave", len(self.slave_set))
+    
+         # <-----------------------dont delect this
+        try:
 
-        for i in self.select["A1:I1"]:
-            """
+          for i in self.select["A1:I1"]:
+             """
             --- For inserting header on result excel from master excel
-         """
-            coutn = 1
+             """
+             coutn = 1
 
-            for j in i:
+             for j in i:
                 self.wb_sheet1_1.cell(row=1, column=coutn, value=j.value)
                 coutn += 1
+        except TypeError as t:
+         print("T-----------------\n",t)
+
 
         i = 1 + 2
         j = []
         self.col_i = 0
         g = 0
-
+        print(self.select.rows, self.select.columns)
+        self.ui_window.tableWidget.setRowCount(len(self.select.rows))
+        self.ui_window.tableWidget.setColumnCount(len(self.select.columns))
         for c in range(self.len_row):
             toS = str(c + 1)
 
@@ -267,15 +298,30 @@ class Main(object):
             g = c
 
             b1 = (self.master_set[c])
+            
+            if (self.ui_window.radioButton.isChecked()   == True or self.ui_window.radioButton_3.isChecked() == True):
+                print("missing ")
+                self.missing_check(a1,b1, toS)
+            else:
+              print("same")
+              self.same_check(a1,b1, toS)
+            '''
+            if ( a1 != b1):
+              print("slave:",a1, "!=", b1,":master")
 
-            if (a1 == b1):
-                print("slave:", a1, "==", b1, ":master")
+              self.compare_to_check(toS)
+              self.col_i += 1
 
-                self.compare_to_check(toS)
-                self.col_i += 1
+
             else:
 
-                continue
+                   continue
+
+            '''
+
+
+
+                
                 # print(("[",self.col_i,"]",c)
 
         """
@@ -299,10 +345,36 @@ class Main(object):
             system("taskkill /IM excel.exe")
             QMessageBox.information(None, "version", _fromUtf8("closing all files..."))
             self.wb.save(a)
+    def missing_check(self, a1, b1, toS):
+
+            if (a1 != b1):
+                #print("slave:", a, "!=", b, ":master")
+
+                self.compare_to_check(toS)
+
+
+            else:
+                 self.col_i += 1
+
+    def same_check(self, a, b, toS):
+              if (a == b):
+                #print("slave:", a, "==", b, ":master")
+
+
+                self.col_i += 1
+
+              else:
+                  self.compare_to_check(toS)
+
 
     def compare_to_check(self, toS):
 
         # #print(("first--->%d )( second --->%d",a,b)
+        """
+
+        :type self: object
+        :type toS: int(value) to string
+        """
         to = self.select["A" + toS + ":I" + toS]
         # #print(("row count in master:",toS)
         # #print((to ,"\n rotation:",self.col_i)
@@ -313,6 +385,8 @@ class Main(object):
             ###print(("row---->",self.row_1,"\ncol----------------------------------------------------")
             for c_o in r_o:
                 ###print((col_1,end="\t")
+                #self.ui_window.tableWidget.setItem(self.row_1, col_1,  QTableWidgetItem(c_o.value))
+
                 self.wb_sheet1_1.cell(row=self.row_1, column=col_1, value=c_o.value)
                 ##print((c_o.value)
                 col_1 += 1
