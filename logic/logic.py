@@ -7,18 +7,17 @@ Created on 03-Jun-2016
 from openpyxl import Workbook
 from openpyxl import load_workbook
 
-from PyQt4.QtGui import QMessageBox
-from PyQt4.QtGui import QInputDialog, QWidget
+from PyQt4.QtGui import QMessageBox, QMainWindow, QTableWidgetItem , QInputDialog, QWidget, QRadioButton
 from PyQt4 import QtCore
-from PyQt4.QtGui import QMainWindow,QTableWidgetItem
+
 from view.mainwindow import *
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
+    QString = QtCore.QString
 except AttributeError:
     def _fromUtf8(s):
         return s
-
 
 
 class PopWidget(QWidget):
@@ -32,9 +31,6 @@ class PopWidget(QWidget):
     def text_r(self):
         if self.ok:
             return self.text
-
-
-
 
 
 #################################################################################
@@ -78,17 +74,15 @@ class Main(QMainWindow):
         self.j_loop = 1
         self.col_i = 1
         # self.Range = None
-        self.ui_window  =   Ui_MainWindow()
+        self.ui_window = Ui_MainWindow()
         self.ui_window.setupUi(self)
+        self.item = QTableWidgetItem()
+        self.ui_window.groupBox.setCheckable(True)
 
-
-        self.ui_window.radioButton.setChecked(True)
-        self.ui_window.radioButton.toggled.connect(lambda:self.ui_window.btnstate(self.ui_window.radioButton))
-        self.ui_window.radioButton_2.toggled.connect(lambda:self.ui_window.btnstate(self.ui_window.radioButton_2))
-        self.ui_window.radioButton_3.toggled.connect(lambda:self.ui_window.btnstate(self.ui_window.radioButton_3))
         self.wb = Workbook()
 
         self.wb_sheet1_1 = self.wb.active
+        QtCore.QObject.connect(self.ui_window.radioButton_2, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.p)
 
         # self.select2['A1:A'+self.len_row2]
 
@@ -96,8 +90,8 @@ class Main(QMainWindow):
         # row_count_master = 1
 
         # self.search_in_master()
-    
-
+    def p(self,e):
+       print(83405)
 
     def load_file_1(self, a):
         """
@@ -107,9 +101,7 @@ class Main(QMainWindow):
         """
 
         # a = "Master.xlsx"
-        self.load_wb =load_workbook(a)
-
-
+        self.load_wb = load_workbook(a)
 
         try:
             self.__u = self.load_wb.get_sheet_names()[0]
@@ -118,10 +110,10 @@ class Main(QMainWindow):
 
         except KeyError:
             try:
-                self.select2 = self.load_wb["Sheet"]
+                self.select = self.load_wb["Sheet"]
             except KeyError:
 
-                self.select2 = self.load_wb[_fromUtf8(PopWidget().text_r())]
+                self.select = self.load_wb[_fromUtf8(PopWidget().text_r())]
             else:
                 self.ok_1 = "fails"
 
@@ -139,9 +131,6 @@ class Main(QMainWindow):
             ####print((self.select['A'+str(count)].value)
             count += 1
 
-        
-
-    
     def load_file_2(self, a):
         """
         this file is used to load file slave excel file
@@ -150,10 +139,7 @@ class Main(QMainWindow):
         """
 
         # a = "Slave1.xlsx"
-        self.load_wb2  = load_workbook(a)
-
-
-        
+        self.load_wb2 = load_workbook(a)
 
         try:
             self.select2 = self.load_wb2["Sheet1"]
@@ -162,7 +148,7 @@ class Main(QMainWindow):
                 self.select2 = self.load_wb2["Sheet"]
             except KeyError:
 
-                self.select2 = self.load_wb2[_fromUtf8(PopWidget().text_r())][0]
+                self.select2 = self.load_wb2[_fromUtf8(PopWidget().text_r())]
             else:
                 self.ok_2 = "fails"
 
@@ -174,21 +160,19 @@ class Main(QMainWindow):
             ####print((">>>>slave",(self.select2['A'+str(count)].value))
             count += 1
             # self.store_set = list(0)
-    
-    
+
     def ok_text_1(self):
         return self.ok_1
-    
+
     def ok_text_2(self):
         return self.ok_2
-    
+
     def save_file(self, a):
         """
         This function is used to save the file in .xlsx format
         :param a: file name
         :return: save the excel file with the given name
         """
-
 
         try:
 
@@ -203,7 +187,7 @@ class Main(QMainWindow):
         # self.store.sort()
         # #print((self.store)
 
-        # sorted(self.slave_set)
+        #sorted(self.slave_set)
 
 
         ###print((self.store,"\nlen of store:",len_store)
@@ -228,8 +212,7 @@ class Main(QMainWindow):
             self.master_set.remove(None)
             self.master_set.remove(self.master_header)
         except ValueError as v:
-           print("V-->\n",v)
-            
+            print("V-->\n", v)
 
         self.len_row = len(self.master_set)
         # print(("master set", self.len_row, "\n row len of file1:", self.len_row, '\n', "====" * 10)
@@ -241,37 +224,46 @@ class Main(QMainWindow):
             # print(self.master_set,"slave sort:",self.slave_set)
             pass
 
-        # print(("master set", "--" * 20, len(self.master_set), "\n", "--" * 20, "\n len of slave", len(self.slave_set))
-    
-         # <-----------------------dont delect this
+            # print(("master set", "--" * 20, len(self.master_set), "\n", "--" * 20, "\n len of slave", len(self.slave_set))
+
+            # <-----------------------dont delect this
         try:
 
-          for i in self.select["A1:I1"]:
-             """
+            for i in self.select["A1:I1"]:
+                """
             --- For inserting header on result excel from master excel
              """
-             coutn = 1
+                coutn = 1
 
-             for j in i:
-                self.wb_sheet1_1.cell(row=1, column=coutn, value=j.value)
-                coutn += 1
+                for j in i:
+                    self.wb_sheet1_1.cell(row=1, column=coutn, value=j.value)
+                    coutn += 1
         except TypeError as t:
-         print("T-----------------\n",t)
-
+            print("T-----------------\n", t)
 
         i = 1 + 2
         j = []
         self.col_i = 0
-        g = 0
-        print(self.select.rows, self.select.columns)
-        self.ui_window.tableWidget.setRowCount(len(self.select.rows))
-        self.ui_window.tableWidget.setColumnCount(len(self.select.columns))
-        for c in range(self.len_row):
-            toS = str(c + 1)
 
-            ####print(("++",self.select["A"+toS+":I"+toS])
+        # print(self.select.rows, self.select.columns)
+        self.ui_window.tableWidget.setRowCount(len(self.select.rows))
+        print((type(self.len_row),self.len_row, "==",len(self.select.rows)))
+        enable = False
+        self.ui_window.tableWidget.setColumnCount(len(self.select.columns))
+
+        g = 0
+        c= 0
+        while(g < self.len_row):
+            """"
+            :: self.col_i == counting slave loop
+            """
+            c +=1
+            toS = str(c)
+
+
+            #print(("++",self.select["A"+toS+":I"+toS])
             # for j in c:
-            ###print(("rotation of store:",j)
+            #print(("rotation of store:",j)
             """
                   if ( list_value_2 == list_value ):
                 ###print((self.master_set[j],"and", self.store[j])
@@ -295,34 +287,40 @@ class Main(QMainWindow):
             except IndexError:
                 print("Index error ====G: ", g, "self.col_i:", self.col_i)
 
-            g = c
-
-            b1 = (self.master_set[c])
-            
-            if (self.ui_window.radioButton.isChecked()   == True or self.ui_window.radioButton_3.isChecked() == True):
-                print("missing ")
-                self.missing_check(a1,b1, toS)
-            else:
-              print("same")
-              self.same_check(a1,b1, toS)
-            '''
-            if ( a1 != b1):
-              print("slave:",a1, "!=", b1,":master")
-
-              self.compare_to_check(toS)
+            if(enable == True):
+               g = g - 1
+            b1 = (self.master_set[g])
+            g+=1
+            if(self.len_row == self.col_i):
+                break
+            if (a1 == b1):
+              print(   "master:", b1, "==", a1,":slave" )
+              self.compare_to_check(str(g))
+              print("index for master file:",g,"index for slave file",self.col_i,"(toS):", toS)
               self.col_i += 1
-
-
             else:
+                print(" \t \t \t \t \t \t \t slave:", a1, "!=", b1, ":master")
+                enable = False
 
-                   continue
+                if(a1 < b1):
+                  print("\t \t \t \t \t \t \t  addition values in slave:", a1)
+                  self.col_i += 1
+                  enable = True
+
 
             '''
+            if (a1 != b1):
+                print("slave:", a1, "!=", b1, ":master")
 
+                self.compare_to_check(toS)
 
+            else:
+                print("\t \t \t \t \t \t \t slave:", a1, "==", b1, ":master")
+                self.col_i += 1
+            
 
-                
                 # print(("[",self.col_i,"]",c)
+            '''
 
         """
         [
@@ -334,38 +332,37 @@ class Main(QMainWindow):
             self.wb_sheet1_1["A"+run] = self.store[i]
         #a = "h.xlsx"
          """""
+
+        print(self.row_1)
+        print("cure",self.col_i)
         try:
             self.wb.save(a)
 
             # print(()
         except PermissionError:
             # #print(("close the report file please..")
-
+            '''
             from os import system
             system("taskkill /IM excel.exe")
-            QMessageBox.information(None, "version", _fromUtf8("closing all files..."))
+            '''
+            QMessageBox.information(None, "version", _fromUtf8("closing result  files\n writeing is not allowed on opened file ..."))#
             self.wb.save(a)
+
+
     def missing_check(self, a1, b1, toS):
 
-            if (a1 != b1):
-                #print("slave:", a, "!=", b, ":master")
-
-                self.compare_to_check(toS)
-
-
-            else:
-                 self.col_i += 1
-
-    def same_check(self, a, b, toS):
-              if (a == b):
-                #print("slave:", a, "==", b, ":master")
-
-
+        if (a1 != b1):
+            print("slave:", a1, "!=", b1, ":master")
+            self.compare_to_check(toS)
+        else:
                 self.col_i += 1
 
-              else:
-                  self.compare_to_check(toS)
+    def same_check(self, a1, b1, toS):
+        if (a1 == b1):
+            print("slave:", a1, "==", b1, ":master")
 
+            self.compare_to_check(toS)
+            self.col_i += 1
 
     def compare_to_check(self, toS):
 
@@ -376,16 +373,34 @@ class Main(QMainWindow):
         :type toS: int(value) to string
         """
         to = self.select["A" + toS + ":I" + toS]
-        # #print(("row count in master:",toS)
-        # #print((to ,"\n rotation:",self.col_i)
+        # print(("row count in master:",toS)
+        # print((to ,"\n rotation:",self.col_i)
 
 
         for r_o in to:
             col_1 = 1
-            ###print(("row---->",self.row_1,"\ncol----------------------------------------------------")
+            #print(("row---->",self.row_1,"\ncol----------------------------------------------------")
             for c_o in r_o:
-                ###print((col_1,end="\t")
-                #self.ui_window.tableWidget.setItem(self.row_1, col_1,  QTableWidgetItem(c_o.value))
+                #print((col_1,end="\t")
+                ''''
+                   add the QTableWidgetItem() 
+                   for correct code 
+                '''
+
+                """
+                try:
+                    try:
+                      c_ovalue1 = QTableWidgetItem(str(c_o.value))
+                      self.ui_window.tableWidget.setItem(self.row_1, col_1-1, QTableWidgetItem(c_ovalue1))
+                    except ValueError:
+                      self.ui_window.tableWidget.setItem(self.row_1, col_1-1, QTableWidgetItem((c_ovalue1)))
+                except (TypeError):
+                    print("...........")
+                    self.ui_window.tableWidget.setItem(self.row_1, col_1-1, QTableWidgetItem(QtCore.QDate.toString(c_o.value)))
+                else:
+                    self.ui_window.tableWidget.setItem(self.row_1, col_1-1, QTableWidgetItem((c_o.value)))
+
+                """
 
                 self.wb_sheet1_1.cell(row=self.row_1, column=col_1, value=c_o.value)
                 ##print((c_o.value)

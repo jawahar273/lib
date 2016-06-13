@@ -8,12 +8,12 @@ import sys
 from time import sleep
 try:
 
-    from PyQt4.QtGui import QMainWindow, QApplication, QWidget, QFileDialog, QMessageBox
+    from PyQt4.QtGui import QMainWindow, QApplication, QWidget, QFileDialog, QMessageBox, QButtonGroup
     from PyQt4 import QtCore
 
     PyQt_version = 4
 except ImportError:
-    from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QFileDialog, QMessageBox
+    from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QFileDialog, QMessageBox, QButtonGroup
 
     PyQt_version = 5
 
@@ -41,6 +41,7 @@ class MainForm(QMainWindow):
         # self.uiWindow.progressBar.setMaximum(90)
         self.uiWindow.tableWidget.setRowCount(5)
         self.uiWindow.tableWidget.setColumnCount(3)
+
         self.save = None
         self.dia = None
         self.uiWindow.open_result_file.hide()
@@ -55,9 +56,11 @@ class MainForm(QMainWindow):
             self.uiWindow.pushButton.clicked.connect(self.dialog_show)
             self.uiWindow.pushButton_2.clicked.connect(self.dialog_show_2)
 
+    
+
     def dialog_show(self):
 
-        self.dia = QFileDialog.getOpenFileName(self, _fromUtf8("open excel"), directory=__file__)
+        self.dia = QFileDialog.getOpenFileName(self, _fromUtf8("open excel"), directory=__file__, filter = "Excel Files(*.xlsx *.xlsm *.xltx *.xltm)" )
         self.uiWindow.pushButton.setStyleSheet("color:green")
 
             
@@ -89,7 +92,7 @@ class MainForm(QMainWindow):
 
         except FileNotFoundError:
                 self.uiWindow.pushButton.setStyleSheet("color:black")
-                self.uiWindow.label_4.setText("Browes")
+                self.uiWindow.label_4.setText("Browse")
                 if (self.dia):
                   del self.dia
 
@@ -106,9 +109,9 @@ class MainForm(QMainWindow):
         """
         try:
             
-            self.dia = QFileDialog.getOpenFileName(self, _fromUtf8("open excel"), directory=__file__)
+            self.dia = QFileDialog.getOpenFileName(self, _fromUtf8("open excel"), directory=__file__, filter = "Excel Files(*.xlsx *.xlsm *.xltx *.xltm)" ) #
         except FileNotFoundError:
-           self.uiWindow.pushButton.setStyleSheet("color:black")
+           self.uiWindow.pushButton_2.setStyleSheet("color:black")
             
         self.uiWindow.label_5.setText(self.dia)
         rp = self.logic.ok_text_2()
@@ -136,18 +139,25 @@ class MainForm(QMainWindow):
 
         except FileNotFoundError:
                 self.uiWindow.pushButton.setStyleSheet("color:black")
-                self.uiWindow.label_4.setText("Browes")
+                self.uiWindow.pushButton.setText("Browse")
                 if (self.dia):
 
                   del self.dia
                   self.dia = None
 
     def fack_to_load_file_2(self):
-    	self.logic.load_file_2(self.dia)
+     self.logic.load_file_2(self.dia)
 
     def save_file_on_gen(self):
         try:
-            self.save = self.uiWindow.lineEdit.text()+".xlsx"
+
+            self.dia = QFileDialog.getSaveFileName(self, _fromUtf8("Save Excel"), directory=__file__, filter = "Excel Files(*.xlsx *.xlsm *.xltx *.xltm)" ) #
+
+        except FileNotFoundError:
+           self.uiWindow.pushButton_2.setStyleSheet("color:black")
+        print(type(self.dia), self.dia)
+        try:
+            self.save = self.dia
             self.logic.save_file(self.save)
             
             self.error = "success"
@@ -155,11 +165,7 @@ class MainForm(QMainWindow):
           #self.uiWindow
             QtCore.QObject.connect(self.uiWindow.open_result_file, QtCore.SIGNAL(_fromUtf8("pressed()")), self.__pop_file)
 
-        except Exception as e:
-            self.error = "fails"
-            print(e.__traceback__())
-
-        finally:
+        except FileNotFoundError:
              self.__j()
 
     def __j(self):
