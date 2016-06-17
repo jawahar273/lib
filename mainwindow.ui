@@ -108,7 +108,8 @@
         <item row="2" column="1">
          <widget class="QFrame" name="frame">
           <property name="styleSheet">
-           <string notr="true">font: italic 22pt &quot;Monotype Corsiva&quot;;</string>
+           <string notr="true">
+font: italic 18pt &quot;Monotype Corsiva&quot;;</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -117,20 +118,10 @@
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QGridLayout" name="gridLayout_3">
-           <item row="6" column="1" colspan="2">
-            <widget class="QLineEdit" name="lineEdit"/>
-           </item>
-           <item row="7" column="1">
-            <widget class="QPushButton" name="pushButton_3">
-             <property name="text">
-              <string>Generate Report</string>
-             </property>
-            </widget>
-           </item>
            <item row="6" column="0">
             <widget class="QLabel" name="label_3">
              <property name="text">
-              <string>Type Result File Name</string>
+              <string>Generate Report</string>
              </property>
             </widget>
            </item>
@@ -167,6 +158,13 @@
               <string>Select the report file to be generated</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_5">
+              <item row="1" column="0">
+               <widget class="QRadioButton" name="radioButton_2">
+                <property name="text">
+                 <string>Find same Accession Numbers</string>
+                </property>
+               </widget>
+              </item>
               <item row="0" column="0">
                <widget class="QRadioButton" name="radioButton">
                 <property name="text">
@@ -181,13 +179,6 @@
                <widget class="QRadioButton" name="radioButton_3">
                 <property name="text">
                  <string>Remove same Accession from Master file</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QRadioButton" name="radioButton_2">
-                <property name="text">
-                 <string>Find same Accession Numbers</string>
                 </property>
                </widget>
               </item>
@@ -267,6 +258,13 @@
              </property>
              <property name="text">
               <string>[ click on browes button to select slave file  ]</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QPushButton" name="pushButton_3">
+             <property name="text">
+              <string>Click</string>
              </property>
             </widget>
            </item>
@@ -369,34 +367,18 @@
  <resources/>
  <connections>
   <connection>
-   <sender>radioButton_2</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>tableWidget</receiver>
+   <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>411</x>
-     <y>416</y>
-    </hint>
-    <hint type="destinationlabel">
      <x>412</x>
-     <y>372</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_3</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>Dialog_title</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>411</x>
-     <y>455</y>
+     <y>531</y>
     </hint>
     <hint type="destinationlabel">
      <x>411</x>
-     <y>104</y>
+     <y>387</y>
     </hint>
    </hints>
   </connection>
